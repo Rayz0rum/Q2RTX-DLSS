@@ -553,30 +553,32 @@ IF (WIN32)
     TARGET_COMPILE_OPTIONS(baseq2 PRIVATE /wd4005 /wd4996)
 
 	if(CONFIG_USE_DLSS)
-		message(STATUS "Q2RTX_WITH_NVIDIA_DLSS enabled")
-		add_definitions(-DRG_USE_NVIDIA_DLSS)
-		message(STATUS "${CMAKE_BUILD_TYPE} Q2RTX BUILD")
+    if(TARGET client)  # Add this check
+        message(STATUS "Q2RTX_WITH_NVIDIA_DLSS enabled")
+        add_definitions(-DRG_USE_NVIDIA_DLSS)
+        message(STATUS "${CMAKE_BUILD_TYPE} Q2RTX BUILD")
 
-		if (DEFINED ENV{DLSS_SDK_PATH})
-			message(STATUS "Found DLSS SDK: $ENV{DLSS_SDK_PATH}")
-			target_include_directories(client PRIVATE "$ENV{DLSS_SDK_PATH}/include")
-			if (WIN32)
-				add_definitions(-DNV_WINDOWS)
-				if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-					target_link_libraries(client "$ENV{DLSS_SDK_PATH}/lib/Windows_x86_64/x86_64/nvsdk_ngx_s_dbg.lib")
-				else()
-					target_link_libraries(client "$ENV{DLSS_SDK_PATH}/lib/Windows_x86_64/x86_64/nvsdk_ngx_s.lib")
-				endif()
-			else()
-				target_link_libraries(client "$ENV{DLSS_SDK_PATH}/lib/Linux_x86_64/libnvsdk_ngx.a")
-				target_link_libraries(client ${CMAKE_DL_LIBS})
-			endif()
-		else()
-			message(FATAL_ERROR 
-				"Can't find DLSS_SDK_PATH environment variable. "
-				"Please, provide the path to https://github.com/NVIDIA/DLSS, to configure the library")
-		endif()
-	endif()
+        if (DEFINED ENV{DLSS_SDK_PATH})
+            message(STATUS "Found DLSS SDK: $ENV{DLSS_SDK_PATH}")
+            target_include_directories(client PRIVATE "$ENV{DLSS_SDK_PATH}/include")
+            if (WIN32)
+                add_definitions(-DNV_WINDOWS)
+                if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+                    target_link_libraries(client "$ENV{DLSS_SDK_PATH}/lib/Windows_x86_64/x86_64/nvsdk_ngx_s_dbg.lib")
+                else()
+                    target_link_libraries(client "$ENV{DLSS_SDK_PATH}/lib/Windows_x86_64/x86_64/nvsdk_ngx_s.lib")
+                endif()
+            else()
+                target_link_libraries(client "$ENV{DLSS_SDK_PATH}/lib/Linux_x86_64/libnvsdk_ngx.a")
+                target_link_libraries(client ${CMAKE_DL_LIBS})
+            endif()
+        else()
+            message(FATAL_ERROR 
+                "Can't find DLSS_SDK_PATH environment variable. "
+                "Please, provide the path to https://github.com/NVIDIA/DLSS, to configure the library")
+        endif()
+    endif()  # Add this closing condition
+endif()
 
 	
 
