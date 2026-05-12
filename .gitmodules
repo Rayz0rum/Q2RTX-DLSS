@@ -23,3 +23,6 @@
 [submodule "extern/openal-soft"]
 	path = extern/openal-soft
 	url = https://github.com/kcat/openal-soft.git
+[submodule "extern/DLSS"]
+	path = extern/DLSS
+	url = https://github.com/NVIDIA/DLSS.git
