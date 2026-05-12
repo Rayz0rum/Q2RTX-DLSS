@@ -26,8 +26,10 @@ jobs:
         submodules: true
       
     - name: Configure Win64
+      env:
+        DLSS_SDK_PATH: https://github.com/NVIDIA/DLSS
       run: cmake -B ${{github.workspace}}/build-x64 -A x64 -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCONFIG_BUILD_GLSLANG=ON
-
+      
     - name: Configure Win32
       run: cmake -B ${{github.workspace}}/build-win32 -A Win32 -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCONFIG_BUILD_GLSLANG=OFF
 
