@@ -9,7 +9,7 @@ on:
   
 env:
   BUILD_TYPE: Release
-  DLSS_SDK_PATH: ${{github.workspace}}/DLSS
+  DLSS_SDK_PATH: ${{github.workspace}}/extern/DLSS
 
 jobs:
   build-windows:
@@ -26,9 +26,6 @@ jobs:
       with:
         submodules: true
         
-    - name: Clone DLSS SDK
-      run: git clone https://github.com/NVIDIA/DLSS.git ${{github.workspace}}/DLSS
-      
     - name: Configure Win64
       run: cmake -B ${{github.workspace}}/build-x64 -A x64 -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCONFIG_BUILD_GLSLANG=ON
       
